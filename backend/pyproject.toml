@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "slms-backend"
+version = "0.1.0"
+description = "Backend for Simple Learning Management System (SLMS)"
+authors = ["Sai Varshith, Hariyala <hosvarshith@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "slms_backend" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.101.0"
+uvicorn = { extras = ["standard"], version = "^0.23.2" }
+alembic = "^1.11.2"
+email-validator = "^2.0.0.post2"
+passlib = { extras = ["argon2"], version = "^1.7.4" }
+pydantic-settings = "^2.0.2"
+asyncpg = "^0.28.0"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.1.0"
+black = "^23.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
