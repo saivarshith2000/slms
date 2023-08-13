@@ -1,11 +1,13 @@
-from typing import List
+from typing import List, TYPE_CHECKING
 
 from sqlalchemy import String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 
 from .base import Base
-from .user import User
+
+if TYPE_CHECKING:
+    from .user import User
 
 
 class Department(Base):

@@ -1,3 +1,4 @@
+import uuid
 from enum import Enum
 from datetime import datetime
 
@@ -6,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID
 
 from .base import Base
+from .department import Department
 
 
 class Role(str, Enum):
@@ -18,12 +20,14 @@ class Role(str, Enum):
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True)
+    id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4()
+    )
 
+    email: Mapped[str] = mapped_column(String(64), index=True, unique=True)
     first_name: Mapped[str] = mapped_column(String(64))
     last_name: Mapped[str] = mapped_column(String(64))
-    email: Mapped[str] = mapped_column(String(64))
-    password_hash: Mapped[str] = mapped_column(String(64))
+    password_hash: Mapped[str] = mapped_column(String(256))
     role: Mapped[Role] = mapped_column(default=Role.DEFAULT)
 
     active: Mapped[bool] = mapped_column(default=False)

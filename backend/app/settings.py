@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     WORKERS: int
     RELOAD: bool
     ECHO_SQL: bool
+    SECRET_KEY: str
+    ALGORITHM: str
+    JWT_EXPIRY_MINUTES: int
 
     model_config = SettingsConfigDict(
         env_file=Path(__file__).parent / f"{os.environ['APP_CONFIG']}.env",

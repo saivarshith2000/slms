@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api.main import router
+from .api.main import router
 
 app = FastAPI(
     title="SLMS",
@@ -10,13 +10,4 @@ app = FastAPI(
     },
 )
 
-app.include_router(router, prefix="/v1/api")
-
-
-if __name__ == "__main__":
-    import uvicorn
-    from settings import settings
-
-    uvicorn.run(
-        "main:app", reload=settings.RELOAD, port=settings.PORT, workers=settings.WORKERS
-    )
+app.include_router(router, prefix="/api/v1")
