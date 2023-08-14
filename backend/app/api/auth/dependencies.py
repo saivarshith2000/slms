@@ -1,9 +1,8 @@
 from typing import Annotated
 
 from jose import JWTError
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from sqlalchemy import select
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
 
 from .utils import decode_jwt
 from .service import get_user_by_email

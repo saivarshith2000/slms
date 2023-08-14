@@ -10,9 +10,7 @@ from .exceptions import email_in_use_exception, user_not_found_exception
 
 async def create_user(request: CreateUserSchema, async_session: AsyncSession) -> None:
     async with async_session() as session:
-        user_in_db = await session.scalar(
-            select(User).where(User.email == request.email)
-        )
+        user_in_db = await session.scalar(select(User).where(User.email == request.email))
         if user_in_db:
             raise email_in_use_exception
         user = User(

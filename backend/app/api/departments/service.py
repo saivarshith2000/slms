@@ -13,9 +13,7 @@ async def get_all_departments(async_session: AsyncSession) -> List[Department]:
         return await session.scalars(select(Department))
 
 
-async def get_department_by_abbreviation(
-    abbr: str, async_session: AsyncSession
-) -> Department:
+async def get_department_by_abbreviation(abbr: str, async_session: AsyncSession) -> Department:
     stmt = select(Department).where(Department.abbreviation == abbr)
     async with async_session() as session:
         dept = await session.scalar(stmt)

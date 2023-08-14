@@ -16,19 +16,9 @@ class Base(DeclarativeBase):
     __abstract__ = True
     metadata = MetaData(naming_convention=convention)
 
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=datetime.utcnow, nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=datetime.utcnow, nullable=False
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
 
     def __repr__(self) -> str:
-        columns = ", ".join(
-            [
-                f"{k}={repr(v)}"
-                for k, v in self.__dict__.items()
-                if not k.startswith("_")
-            ]
-        )
+        columns = ", ".join([f"{k}={repr(v)}" for k, v in self.__dict__.items() if not k.startswith("_")])
         return f"<{self.__class__.__name__}({columns})>"

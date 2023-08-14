@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.models.user import User
@@ -18,9 +18,7 @@ router = APIRouter(prefix="/auth")
 @router.post("/signup")
 async def signup_route(request: CreateUserSchema, async_session: AsyncSession):
     await create_user(request, async_session)
-    return {
-        "message": "Sign Up successful. You can sign in once an adminstrator activates your account."
-    }
+    return {"message": "Sign Up successful. You can sign in once an adminstrator activates your account."}
 
 
 @router.post("/signin")

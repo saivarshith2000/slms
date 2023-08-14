@@ -2,12 +2,12 @@ from typing import List
 
 from fastapi import APIRouter
 
-router = APIRouter(prefix="/departments")
-
 from app.db import AsyncSession
 
 from .service import get_all_departments
 from .schema import DepartmentSchema
+
+router = APIRouter(prefix="/departments")
 
 
 @router.get("/all", response_model=List[DepartmentSchema])

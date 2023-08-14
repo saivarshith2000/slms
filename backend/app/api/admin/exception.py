@@ -8,6 +8,4 @@ def department_already_exists_exception(abbreviation: str) -> HTTPException:
     )
 
 
-access_denied_exception = HTTPException(
-    status_code=status.HTTP_403_FORBIDDEN, detail="Access denied"
-)
+access_denied_exception = HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")

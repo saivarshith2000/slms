@@ -16,14 +16,22 @@ email-validator = "^2.0.0.post2"
 passlib = { extras = ["argon2"], version = "^1.7.4" }
 pydantic-settings = "^2.0.2"
 asyncpg = "^0.28.0"
-python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+python-jose = { extras = ["cryptography"], version = "^3.3.0" }
 python-multipart = "^0.0.6"
 
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
 black = "^23.7.0"
+ruff = "^0.0.284"
 
+[tool.black]
+line-length = 120
+extend-exclude = "migrations/"
+
+[tool.ruff]
+line-length = 120 # should be equal to tool.black.line-length
+fix = true
 
 [build-system]
 requires = ["poetry-core"]

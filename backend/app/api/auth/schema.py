@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-from app.models.user import User, Role
+from app.models.user import Role
 
 
 class BaseUserSchema(BaseModel):

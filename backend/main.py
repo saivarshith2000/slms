@@ -1,5 +1,4 @@
 from app.core.log import log_config
-from app.main import app
 
 import uvicorn
 
