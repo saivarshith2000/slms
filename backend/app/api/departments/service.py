@@ -2,8 +2,8 @@ from typing import List
 
 from sqlalchemy import select
 
-from app.models.department import Department
 from app.db import AsyncSession
+from app.models.department import Department
 
 from .exception import department_not_found_exception
 

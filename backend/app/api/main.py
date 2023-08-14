@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from .auth.routes import router as auth_router
 from .admin.routes import router as admin_router
+from .auth.routes import router as auth_router
 from .departments.routes import router as department_router
 
 router = APIRouter()

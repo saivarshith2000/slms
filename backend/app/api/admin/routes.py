@@ -1,22 +1,22 @@
 from typing import List
+
 from fastapi import APIRouter, Depends
 
+from app.api.departments.schema import DepartmentSchema
 from app.core.log import logger
 from app.db import AsyncSession
-from app.api.departments.schema import DepartmentSchema
-
-from .schema import AccountActivationRequestSchema, UpdateDepartmentSchema
-from .service import (
-    get_all_accounts,
-    get_inactive_accounts,
-    activate_account,
-    deactivate_account,
-    create_department,
-    update_department,
-)
-from .dependencies import is_admin
 
 from ..auth.schema import BaseUserSchema
+from .dependencies import is_admin
+from .schema import AccountActivationRequestSchema, UpdateDepartmentSchema
+from .service import (
+    activate_account,
+    create_department,
+    deactivate_account,
+    get_all_accounts,
+    get_inactive_accounts,
+    update_department,
+)
 
 router = APIRouter(prefix="/admin", dependencies=[Depends(is_admin)])
 

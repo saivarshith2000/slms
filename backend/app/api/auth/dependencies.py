@@ -1,15 +1,15 @@
 from typing import Annotated
 
-from jose import JWTError
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
-
-from .utils import decode_jwt
-from .service import get_user_by_email
-from .exceptions import credentials_exception, account_inactive_exception
+from jose import JWTError
 
 from app.db import AsyncSession
 from app.models.user import User
+
+from .exceptions import account_inactive_exception, credentials_exception
+from .service import get_user_by_email
+from .utils import decode_jwt
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/signin")
 

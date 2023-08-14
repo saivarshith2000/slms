@@ -1,18 +1,16 @@
-from typing import List
 from datetime import datetime
+from typing import List
 
 from sqlalchemy import select
 
 from app.api.departments.schema import DepartmentSchema
 from app.api.departments.service import get_department_by_abbreviation
-
 from app.db import AsyncSession
-from app.models.user import User
 from app.models.department import Department
-
-from .exception import department_already_exists_exception
+from app.models.user import User
 
 from ..auth.service import get_user_by_email
+from .exception import department_already_exists_exception
 
 
 async def get_all_accounts(async_session: AsyncSession) -> List[User]:

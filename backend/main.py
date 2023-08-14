@@ -1,9 +1,7 @@
-from app.core.log import log_config
-
 import uvicorn
 
+from app.core.log import log_config
 from app.settings import settings
-
 
 if __name__ == "__main__":
     uvicorn.run(

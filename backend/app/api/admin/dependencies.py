@@ -2,10 +2,9 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from app.models.user import User, Role
+from app.models.user import Role, User
 
 from ..auth.dependencies import get_current_user
-
 from .exception import access_denied_exception
 
 

@@ -3,9 +3,9 @@ from sqlalchemy import select
 from app.db import AsyncSession
 from app.models.user import User
 
+from .exceptions import email_in_use_exception, user_not_found_exception
 from .schema import CreateUserSchema
 from .utils import hash_password
-from .exceptions import email_in_use_exception, user_not_found_exception
 
 
 async def create_user(request: CreateUserSchema, async_session: AsyncSession) -> None:

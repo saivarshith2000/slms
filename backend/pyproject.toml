@@ -27,11 +27,14 @@ ruff = "^0.0.284"
 
 [tool.black]
 line-length = 120
-extend-exclude = "migrations/"
+extend-exclude = "migrations/*"
+select = ["F", "E", "W", "I001"]
 
 [tool.ruff]
-line-length = 120 # should be equal to tool.black.line-length
+select = ["F", "E", "W", "I001"]
+line-length = 120                 # should be equal to tool.black.line-length
 fix = true
+extend-exclude = ["migrations/*"]
 
 [build-system]
 requires = ["poetry-core"]

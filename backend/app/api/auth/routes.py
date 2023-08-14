@@ -3,14 +3,14 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.models.user import User
 from app.db import AsyncSession
+from app.models.user import User
 
-from .schema import BaseUserSchema, CreateUserSchema
 from .dependencies import get_current_user
+from .exceptions import account_inactive_exception, credentials_exception
+from .schema import BaseUserSchema, CreateUserSchema
+from .service import create_user, get_user_by_email
 from .utils import create_jwt, verify_password
-from .service import get_user_by_email, create_user
-from .exceptions import credentials_exception, account_inactive_exception
 
 router = APIRouter(prefix="/auth")
 

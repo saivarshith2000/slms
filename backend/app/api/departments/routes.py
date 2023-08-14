@@ -4,8 +4,8 @@ from fastapi import APIRouter
 
 from app.db import AsyncSession
 
-from .service import get_all_departments
 from .schema import DepartmentSchema
+from .service import get_all_departments
 
 router = APIRouter(prefix="/departments")
 
