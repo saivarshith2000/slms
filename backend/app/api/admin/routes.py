@@ -1,6 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends
 
+from app.core.log import logger
 from app.db import AsyncSession
 from app.api.departments.schema import DepartmentSchema
 
@@ -34,12 +35,14 @@ async def pending_accounts_route(async_session: AsyncSession):
 async def activate_account_route(
     request: AccountActivationRequestSchema, async_session: AsyncSession
 ):
+    logger.info(f"Activating user account - {request.email}")
     await activate_account(request.email, request.department, async_session)
     return {"message": "Account activated successfully"}
 
 
 @router.post("/accounts/deactivate/:email")
 async def deactivate_account_route(email: str, async_session: AsyncSession):
+    logger.info(f"Dectivating user account - {request.email}")
     await deactivate_account(email, async_session)
     return {"message": "Account de-activated successfully"}
 
@@ -48,6 +51,7 @@ async def deactivate_account_route(email: str, async_session: AsyncSession):
 async def create_department_route(
     request: DepartmentSchema, async_session: AsyncSession
 ):
+    logger.info(f"Creating department - {request.name} - {request.abbreviation}")
     return await create_department(request, async_session)
 
 
@@ -55,6 +59,7 @@ async def create_department_route(
 async def update_department_route(
     abbr: str, request: UpdateDepartmentSchema, async_session: AsyncSession
 ):
+    logger.info(f"Updating department - {abbr}")
     return await update_department(abbr, request, async_session)
 
 
