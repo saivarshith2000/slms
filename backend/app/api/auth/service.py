@@ -5,7 +5,7 @@ from app.models.user import User
 
 from .schema import CreateUserSchema
 from .utils import hash_password
-from .exceptions import email_in_user_exception
+from .exceptions import email_in_use_exception, user_not_found_exception
 
 
 async def create_user(request: CreateUserSchema, async_session: AsyncSession) -> None:
@@ -14,7 +14,7 @@ async def create_user(request: CreateUserSchema, async_session: AsyncSession) ->
             select(User).where(User.email == request.email)
         )
         if user_in_db:
-            raise email_in_user_exception
+            raise email_in_use_exception
         user = User(
             email=request.email,
             first_name=request.first_name,
@@ -28,4 +28,7 @@ async def create_user(request: CreateUserSchema, async_session: AsyncSession) ->
 
 async def get_user_by_email(email: str, async_session: AsyncSession) -> User:
     async with async_session() as session:
-        return await session.scalar(select(User).where(User.email == email))
+        user = await session.scalar(select(User).where(User.email == email))
+        if not user:
+            raise user_not_found_exception(email)
+        return user
