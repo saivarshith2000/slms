@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     JWT_EXPIRY_MINUTES: int
 
     model_config = SettingsConfigDict(
-        env_file=Path(__file__).parent / f"{os.environ['APP_CONFIG']}.env",
+        env_file=Path(__file__).parent.parent / f"{os.environ['APP_CONFIG']}.env",
         case_sensitive=True,
     )
 
