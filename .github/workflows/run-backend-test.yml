@@ -24,6 +24,7 @@ jobs:
       - name: Set up python 3.10
         uses: actions/setup-python@v4
         with:
+          cache: 'poetry'
           python-version: "3.10"
 
       - name: Install poetry
@@ -36,11 +37,34 @@ jobs:
         working-directory: backend/
         run: poetry install
 
-      - name: Run Tests
+      - name: Run Tests and generate coverage report
         working-directory: backend/
         env:
           # pydantic-settings will use this URI over the value passed in test.env
           DB_URI: "postgresql+asyncpg://localhost:localhost@localhost:${{ job.services.postgres.ports[5432] }}/slms-test"
           APP_CONFIG: test
-        run: poetry run pytest .
+        run: poetry run coverage run -m pytest .
+          
+      - name: Coverage Badge
+        uses: tj-actions/coverage-badge-py@v2
 
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v16
+        id: verify-changed-files
+        with:
+          files: media/coverage.svg
+
+      - name: Commit files
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add media/coverage.svg
+          git commit -m "Updated media/coverage.svg"
+
+      - name: Push changes
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          branch: ${{ github.ref }}
