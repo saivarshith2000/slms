@@ -1,6 +1,10 @@
 # env files
 *.env
 
+# Allow test.env and dev.env for github actions and devEx
+!test.env
+!dev.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
