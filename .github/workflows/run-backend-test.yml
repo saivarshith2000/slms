@@ -21,17 +21,19 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Set up python 3.10
-        uses: actions/setup-python@v4
-        with:
-          cache: 'poetry'
-          python-version: "3.10"
-
       - name: Install poetry
         working-directory: backend/
         run: |
           pip install --upgrade pip
           pip install poetry
+
+      - name: Set up python 3.10 and poetry
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: 'poetry'
+          cache-dependency-path: |
+            backend/poetry.lock
 
       - name: Install Dependencies
         working-directory: backend/
@@ -47,6 +49,8 @@ jobs:
           
       - name: Coverage Badge
         uses: tj-actions/coverage-badge-py@v2
+        with:
+          working-directory: backend/
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v16
