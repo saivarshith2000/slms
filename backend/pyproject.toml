@@ -5,7 +5,6 @@ description = "Backend for Simple Learning Management System (SLMS)"
 authors = ["Sai Varshith, Hariyala <hosvarshith@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{ include = "slms_backend" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
