@@ -38,7 +38,7 @@ async def activate_account_route(request: AccountActivationRequestSchema, async_
     return {"message": "Account activated successfully"}
 
 
-@router.post("/accounts/deactivate/:email")
+@router.post("/accounts/deactivate")
 async def deactivate_account_route(email: str, async_session: AsyncSession):
     logger.info(f"Dectivating user account - {email}")
     await deactivate_account(email, async_session)
@@ -51,7 +51,7 @@ async def create_department_route(request: DepartmentSchema, async_session: Asyn
     return await create_department(request, async_session)
 
 
-@router.post("/departments/update/:abbr", response_model=DepartmentSchema)
+@router.put("/departments/update/{abbr}", response_model=DepartmentSchema)
 async def update_department_route(abbr: str, request: UpdateDepartmentSchema, async_session: AsyncSession):
     logger.info(f"Updating department - {abbr}")
     return await update_department(abbr, request, async_session)

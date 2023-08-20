@@ -20,7 +20,7 @@ async def get_all_accounts(async_session: AsyncSession) -> List[User]:
 
 async def get_inactive_accounts(async_session: AsyncSession) -> List[User]:
     async with async_session() as session:
-        return await session.scalars(select(User).where(User.active is False))
+        return await session.scalars(select(User).where(User.active == False))  # noqa
 
 
 async def activate_account(email: str, dept_abbr: str, async_session: AsyncSession) -> User:

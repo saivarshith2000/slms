@@ -11,6 +11,6 @@ router.include_router(department_router, tags=["department"])
 
 
 # TODO: Harden this endpoint
-@router.get("health", tags=["health"])
+@router.get("/health", tags=["health"])
 def health():
-    return {"message": "Healthy!"}
+    return {"message": "Healthy"}

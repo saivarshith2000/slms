@@ -19,7 +19,7 @@ class Role(str, Enum):
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     email: Mapped[str] = mapped_column(String(64), index=True, unique=True)
     first_name: Mapped[str] = mapped_column(String(64))
