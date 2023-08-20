@@ -43,4 +43,4 @@ jobs:
           # pydantic-settings will use this URI over the value passed in test.env
           DB_URI: "postgresql+asyncpg://localhost:localhost@localhost:${{ job.services.postgres.ports[5432] }}/slms-test"
         run: |
-          python -m pytest .
+          APP_CONFIG=test pytest .
