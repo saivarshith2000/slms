@@ -27,8 +27,8 @@ users = [
 ]
 
 departments = [
-    {"name": "Department of pytest", "abbreviation": "pytest", "description": "This department teaches pytest"},
-    {"name": "Duplicate Dept. of pytest", "abbreviation": "pytest", "description": "This is a duplicate"},
+    {"name": "Department of pytest", "code": "pytest", "description": "This department teaches pytest"},
+    {"name": "Duplicate Dept. of pytest", "code": "pytest", "description": "This is a duplicate"},
 ]
 
 
@@ -66,7 +66,7 @@ async def test_activate_user(admin_bearer_token: str, client: AsyncClient, db_se
 
     response = await client.post(
         "/admin/accounts/activate",
-        json={"email": users[0]["email"], "department": departments[0]["abbreviation"]},
+        json={"email": users[0]["email"], "department": departments[0]["code"]},
         headers=headers,
     )
     assert response.status_code == 200
@@ -74,9 +74,7 @@ async def test_activate_user(admin_bearer_token: str, client: AsyncClient, db_se
     user = await db_session.scalar(select(User).where(User.email == users[0]["email"]))
     assert user.active is True
 
-    department = await db_session.scalar(
-        select(Department).where(Department.abbreviation == departments[0]["abbreviation"])
-    )
+    department = await db_session.scalar(select(Department).where(Department.code == departments[0]["code"]))
     assert user.department_id == department.id
 
 
@@ -101,9 +99,7 @@ async def test_create_department(admin_bearer_token: str, client: AsyncClient, d
     response = await client.post("/admin/departments/create", headers=headers, json=departments[0])
     assert response.status_code == 200
 
-    department = await db_session.scalar(
-        select(Department).where(Department.abbreviation == departments[0]["abbreviation"])
-    )
+    department = await db_session.scalar(select(Department).where(Department.code == departments[0]["code"]))
     assert department is not None
 
 
@@ -117,7 +113,7 @@ async def test_create_department_prevent_duplicate(
 
     response = await client.post("/admin/departments/create", headers=headers, json=departments[0])
     assert response.status_code == 400
-    assert departments[0]["abbreviation"] in response.json()["detail"]
+    assert departments[0]["code"] in response.json()["detail"]
 
 
 @pytest.mark.asyncio
@@ -127,13 +123,9 @@ async def test_update_department(admin_bearer_token: str, client: AsyncClient, d
     await db_session.commit()
 
     data = {"name": "Updated Department of Pytest", "description": "Updated description of this department"}
-    response = await client.put(
-        f"/admin/departments/update/{departments[0]['abbreviation']}", headers=headers, json=data
-    )
+    response = await client.put(f"/admin/departments/update/{departments[0]['code']}", headers=headers, json=data)
     assert response.status_code == 200
 
-    department = await db_session.scalar(
-        select(Department).where(Department.abbreviation == departments[0]["abbreviation"])
-    )
+    department = await db_session.scalar(select(Department).where(Department.code == departments[0]["code"]))
     assert department.name == data["name"]
     assert department.description == data["description"]

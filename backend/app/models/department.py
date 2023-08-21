@@ -16,7 +16,7 @@ class Department(Base):
 
     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(String(128))
-    abbreviation: Mapped[str] = mapped_column(String(8), unique=True, index=True)
+    code: Mapped[str] = mapped_column(String(8), unique=True, index=True)
     description: Mapped[str] = mapped_column(Text())
 
     users: Mapped[List["User"]] = relationship()

@@ -47,14 +47,14 @@ async def deactivate_account_route(email: str, session: DBSession):
 
 @router.post("/departments/create", response_model=DepartmentSchema)
 async def create_department_route(request: DepartmentSchema, session: DBSession):
-    logger.info(f"Creating department - {request.name} - {request.abbreviation}")
+    logger.info(f"Creating department - {request.name} - {request.code}")
     return await create_department(request, session)
 
 
-@router.put("/departments/update/{abbr}", response_model=DepartmentSchema)
-async def update_department_route(abbr: str, request: UpdateDepartmentSchema, session: DBSession):
-    logger.info(f"Updating department - {abbr}")
-    return await update_department(abbr, request, session)
+@router.put("/departments/update/{code}", response_model=DepartmentSchema)
+async def update_department_route(code: str, request: UpdateDepartmentSchema, session: DBSession):
+    logger.info(f"Updating department - {code}")
+    return await update_department(code, request, session)
 
 
 @router.delete("/departments/delete")

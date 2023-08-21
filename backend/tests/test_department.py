@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.department import Department
 
 departments = [
-    {"name": "A Department", "abbreviation": "DEPA", "description": "A Department's description"},
-    {"name": "B Department", "abbreviation": "DEPB", "description": "B Department's description"},
+    {"name": "A Department", "code": "DEPA", "description": "A Department's description"},
+    {"name": "B Department", "code": "DEPB", "description": "B Department's description"},
 ]
 
 

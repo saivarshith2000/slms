@@ -1,10 +1,10 @@
 from fastapi import HTTPException, status
 
 
-def department_already_exists_exception(abbreviation: str) -> HTTPException:
+def department_already_exists_exception(code: str) -> HTTPException:
     return HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
-        detail=f"A department with abbreviation {abbreviation} already exists",
+        detail=f"A department with code {code} already exists",
     )
 
 

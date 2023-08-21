@@ -12,8 +12,8 @@ async def get_all_departments(session: DBSession) -> List[Department]:
     return await session.scalars(select(Department))
 
 
-async def get_department_by_abbreviation(abbr: str, session: DBSession) -> Department:
-    dept = await session.scalar(select(Department).where(Department.abbreviation == abbr))
+async def get_department_by_code(code: str, session: DBSession) -> Department:
+    dept = await session.scalar(select(Department).where(Department.code == code))
     if not dept:
-        raise department_not_found_exception(abbr)
+        raise department_not_found_exception(code)
     return dept
