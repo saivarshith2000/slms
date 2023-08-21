@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class Department(Base):
     __tablename__ = "departments"
 
-    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(String(128))
     abbreviation: Mapped[str] = mapped_column(String(8), unique=True, index=True)
     description: Mapped[str] = mapped_column(Text())

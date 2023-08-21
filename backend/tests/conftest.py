@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 # module level fixtures
 pytest_plugins = [
-    "tests.fixtures.admin",
+    "tests.fixtures.users",
 ]
 
 
