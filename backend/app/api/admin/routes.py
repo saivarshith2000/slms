@@ -22,39 +22,39 @@ router = APIRouter(prefix="/admin", dependencies=[Depends(is_admin)])
 
 
 @router.get("/accounts/all", response_model=List[BaseUserSchema])
-async def all_accounts_route(db_session: DBSession):
-    return await get_all_accounts(db_session)
+async def all_accounts_route(session: DBSession):
+    return await get_all_accounts(session)
 
 
 @router.get("/accounts/pending", response_model=List[BaseUserSchema])
-async def pending_accounts_route(db_session: DBSession):
-    return await get_inactive_accounts(db_session)
+async def pending_accounts_route(session: DBSession):
+    return await get_inactive_accounts(session)
 
 
 @router.post("/accounts/activate")
-async def activate_account_route(request: AccountActivationRequestSchema, db_session: DBSession):
+async def activate_account_route(request: AccountActivationRequestSchema, session: DBSession):
     logger.info(f"Activating user account - {request.email}")
-    await activate_account(request.email, request.department, db_session)
+    await activate_account(request.email, request.department, session)
     return {"message": "Account activated successfully"}
 
 
 @router.post("/accounts/deactivate")
-async def deactivate_account_route(email: str, db_session: DBSession):
+async def deactivate_account_route(email: str, session: DBSession):
     logger.info(f"Dectivating user account - {email}")
-    await deactivate_account(email, db_session)
+    await deactivate_account(email, session)
     return {"message": "Account de-activated successfully"}
 
 
 @router.post("/departments/create", response_model=DepartmentSchema)
-async def create_department_route(request: DepartmentSchema, db_session: DBSession):
+async def create_department_route(request: DepartmentSchema, session: DBSession):
     logger.info(f"Creating department - {request.name} - {request.abbreviation}")
-    return await create_department(request, db_session)
+    return await create_department(request, session)
 
 
 @router.put("/departments/update/{abbr}", response_model=DepartmentSchema)
-async def update_department_route(abbr: str, request: UpdateDepartmentSchema, db_session: DBSession):
+async def update_department_route(abbr: str, request: UpdateDepartmentSchema, session: DBSession):
     logger.info(f"Updating department - {abbr}")
-    return await update_department(abbr, request, db_session)
+    return await update_department(abbr, request, session)
 
 
 @router.delete("/departments/delete")

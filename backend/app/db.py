@@ -24,10 +24,11 @@ async_session = async_sessionmaker(
 
 
 async def get_session() -> AsyncSession:
-    try:
-        yield async_session
-    except SQLAlchemyError as e:
-        logger.exception(e)
+    async with async_session() as session:
+        try:
+            yield session
+        except SQLAlchemyError as e:
+            logger.exception(e)
 
 
 # FastAPI dependency
