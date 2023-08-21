@@ -1,14 +1,12 @@
-from typing import List
-
 from sqlalchemy import select
 
 from app.db import DBSession
 from app.models.department import Department
 
-from .exception import department_not_found_exception
+from .exceptions import department_not_found_exception
 
 
-async def get_all_departments(session: DBSession) -> List[Department]:
+async def get_all_departments(session: DBSession) -> list[Department]:
     return await session.scalars(select(Department))
 
 

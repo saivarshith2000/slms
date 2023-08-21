@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import APIRouter, Depends
 
 from app.api.departments.schema import DepartmentSchema
@@ -21,12 +19,12 @@ from .service import (
 router = APIRouter(prefix="/admin", dependencies=[Depends(is_admin)])
 
 
-@router.get("/accounts/all", response_model=List[BaseUserSchema])
+@router.get("/accounts/all", response_model=list[BaseUserSchema])
 async def all_accounts_route(session: DBSession):
     return await get_all_accounts(session)
 
 
-@router.get("/accounts/pending", response_model=List[BaseUserSchema])
+@router.get("/accounts/pending", response_model=list[BaseUserSchema])
 async def pending_accounts_route(session: DBSession):
     return await get_inactive_accounts(session)
 

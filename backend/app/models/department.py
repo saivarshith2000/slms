@@ -1,5 +1,5 @@
 import uuid
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 from sqlalchemy import String, Text
 from sqlalchemy.dialects.postgresql import UUID
@@ -19,4 +19,4 @@ class Department(Base):
     code: Mapped[str] = mapped_column(String(8), unique=True, index=True)
     description: Mapped[str] = mapped_column(Text())
 
-    users: Mapped[List["User"]] = relationship()
+    users: Mapped[list["User"]] = relationship()

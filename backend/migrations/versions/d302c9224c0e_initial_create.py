@@ -1,8 +1,8 @@
 """initial_create
 
-Revision ID: 58b3afadb06e
+Revision ID: d302c9224c0e
 Revises: 
-Create Date: 2023-08-21 22:16:19.978457
+Create Date: 2023-08-21 22:35:51.432709
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '58b3afadb06e'
+revision: str = 'd302c9224c0e'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -39,10 +39,10 @@ def upgrade() -> None:
     sa.Column('role', sa.Enum('STUDENT', 'TEACHER', 'ADMIN', 'DEFAULT', name='role'), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=False),
     sa.Column('activated_at', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('department_id', sa.UUID(), nullable=True),
+    sa.Column('department_code', sa.String(length=8), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=False),
-    sa.ForeignKeyConstraint(['department_id'], ['departments.id'], name=op.f('fk_users_department_id_departments')),
+    sa.ForeignKeyConstraint(['department_code'], ['departments.code'], name=op.f('fk_users_department_code_departments')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_users'))
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)

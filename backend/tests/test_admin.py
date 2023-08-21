@@ -75,7 +75,7 @@ async def test_activate_user(admin_bearer_token: str, client: AsyncClient, db_se
     assert user.active is True
 
     department = await db_session.scalar(select(Department).where(Department.code == departments[0]["code"]))
-    assert user.department_id == department.id
+    assert user.department_code == department.code
 
 
 @pytest.mark.asyncio
