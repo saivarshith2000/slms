@@ -1,5 +1,5 @@
-from app.db import AsyncSession
+from app.db import DBSession
 
 
-def check_department_exists(async_session: AsyncSession):
+def check_department_exists(db_session: DBSession):
     pass

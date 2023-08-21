@@ -1,9 +1,9 @@
 import logging
-from typing import Annotated, AsyncIterator
+from typing import Annotated
 
 from fastapi import Depends
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from app.settings import settings
 
@@ -15,7 +15,7 @@ async_engine = create_async_engine(
     echo=settings.ECHO_SQL,
 )
 
-AsyncSessionLocal = async_sessionmaker(
+async_session = async_sessionmaker(
     bind=async_engine,
     expire_on_commit=False,
     autoflush=False,
@@ -23,11 +23,12 @@ AsyncSessionLocal = async_sessionmaker(
 )
 
 
-async def get_session() -> AsyncIterator[async_sessionmaker]:
+async def get_session() -> AsyncSession:
     try:
-        yield AsyncSessionLocal
+        yield async_session
     except SQLAlchemyError as e:
         logger.exception(e)
 
 
-AsyncSession = Annotated[async_sessionmaker, Depends(get_session)]
+# FastAPI dependency
+DBSession = Annotated[AsyncSession, Depends(get_session)]

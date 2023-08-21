@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.db import AsyncSession
+from app.db import DBSession
 from app.models.user import User
 
 from .dependencies import get_current_user
@@ -16,17 +16,17 @@ router = APIRouter(prefix="/auth")
 
 
 @router.post("/signup")
-async def signup_route(request: CreateUserSchema, async_session: AsyncSession):
-    await create_user(request, async_session)
+async def signup_route(request: CreateUserSchema, db_session: DBSession):
+    await create_user(request, db_session)
     return {"message": "Sign Up successful. You can sign in once an adminstrator activates your account."}
 
 
 @router.post("/signin")
 async def signin_route(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    async_session: AsyncSession,
+    db_session: DBSession,
 ):
-    user = await get_user_by_email(form_data.username, async_session)
+    user = await get_user_by_email(form_data.username, db_session)
     if not user:
         raise credentials_exception
     if not user.active:
