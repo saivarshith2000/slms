@@ -25,15 +25,15 @@ jobs:
         working-directory: backend/
         run: |
           pip install --upgrade pip
-          pip install poetry
+          pip install poetry==1.5.1
 
       - name: Set up python 3.10 and poetry
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-          # cache: 'poetry'
-          # cache-dependency-path: |
-          #   backend/poetry.lock
+          cache: 'poetry'
+          cache-dependency-path: |
+            backend/poetry.lock
 
       - name: Install Dependencies
         working-directory: backend/
