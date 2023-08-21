@@ -66,7 +66,7 @@ async def test_activate_user(admin_bearer_token: str, client: AsyncClient, db_se
 
     response = await client.post(
         "/admin/accounts/activate",
-        json={"email": users[0]["email"], "department": departments[0]["code"]},
+        json={"email": users[0]["email"], "department_code": departments[0]["code"]},
         headers=headers,
     )
     assert response.status_code == 200

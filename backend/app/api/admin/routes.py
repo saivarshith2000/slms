@@ -34,7 +34,7 @@ async def pending_accounts_route(session: DBSession):
 @router.post("/accounts/activate")
 async def activate_account_route(request: AccountActivationRequestSchema, session: DBSession):
     logger.info(f"Activating user account - {request.email}")
-    await activate_account(request.email, request.department, session)
+    await activate_account(request.email, request.department_code, session)
     return {"message": "Account activated successfully"}
 
 

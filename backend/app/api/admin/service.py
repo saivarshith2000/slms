@@ -21,9 +21,9 @@ async def get_inactive_accounts(session: DBSession) -> List[User]:
     return await session.scalars(select(User).where(User.active == False))  # noqa
 
 
-async def activate_account(email: str, dept_abbr: str, session: DBSession) -> User:
+async def activate_account(email: str, dept_code: str, session: DBSession) -> User:
     user = await get_user_by_email(email, session)
-    dept = await get_department_by_code(dept_abbr, session)
+    dept = await get_department_by_code(dept_code, session)
     user.active = True
     user.activated_at = datetime.utcnow()
     user.department_id = dept.id
