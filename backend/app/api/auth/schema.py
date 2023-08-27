@@ -14,3 +14,9 @@ class BaseUserSchema(BaseModel):
 
 class CreateUserSchema(BaseUserSchema):
     password: str = Field(..., max_length=64, min_length=8)
+
+
+class SignInResponseSchema(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: BaseUserSchema
