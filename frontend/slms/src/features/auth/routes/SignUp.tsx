@@ -7,7 +7,7 @@ export default function SignUp() {
 
   return (
     <Layout alternateLink='/auth/signin' alternateText='Have an account ?'>
-      <SignUpForm onSuccess={() => navigate('/signin')} />
+      <SignUpForm onSuccess={() => navigate('/auth/signin')} />
     </Layout>
   )
 }

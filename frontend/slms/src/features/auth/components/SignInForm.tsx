@@ -7,7 +7,7 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../store/authSlice'
-import { useSigninMutation } from '../store/authApiSlice'
+import { useSigninMutation } from '../api/authApiSlice'
 
 type SignInFormProps = {
   onSuccess: (role: string) => void

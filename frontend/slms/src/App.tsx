@@ -1,9 +1,11 @@
 // src/App.tsx
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AppRoutes from './routes'
-
-const router = createBrowserRouter(AppRoutes)
+import { BrowserRouter } from 'react-router-dom'
 
 export default function App() {
-  return <RouterProvider router={router} />
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  )
 }

@@ -1,5 +1,5 @@
 import { apiSlice } from '@/store/apiSlice'
-import { SignInInput, SignInResponse } from '../types'
+import { SignInInput, SignInResponse, SignUpInput } from '../types'
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,7 +15,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    signup: builder.mutation<string, SignUpInput>({
+      query: (credentials) => {
+        return {
+          url: '/auth/signup',
+          method: 'POST',
+          body: { ...credentials },
+        }
+      },
+    }),
   }),
 })
 
-export const { useSigninMutation } = authApiSlice
+export const { useSigninMutation, useSignupMutation } = authApiSlice
