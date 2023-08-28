@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-    font-size: 100%;
-    background-color: #f2f5f5;
-    margin: 0px;
-    min-height: 100dvh;
+  font-size: 100%;
+  background-color: #f2f5f5;
+  margin: 0px;
+  min-height: 100dvh;
 }
