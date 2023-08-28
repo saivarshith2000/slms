@@ -16,7 +16,11 @@ const schema = z.object({
   confirm_password: z.string().min(6).max(64),
 })
 
-export default function SignUpForm() {
+type SignUpFormProps = {
+  onSuccess: () => void
+}
+
+export default function SignUpForm({ onSuccess }: SignUpFormProps) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   })

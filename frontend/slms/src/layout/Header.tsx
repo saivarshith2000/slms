@@ -37,7 +37,7 @@ export function Profile({ user }: { user: User }) {
 
   function handleLogout() {
     dispatch(logOut({}))
-    navigate('/signin', { replace: true })
+    navigate('/auth/signin', { replace: true })
   }
 
   return (
@@ -68,7 +68,7 @@ export default function Header() {
       ) : (
         <div>
           <ExploreDropdown />
-          <Link to='/signin'>
+          <Link to='/auth/signin'>
             <Button variant='ghost'>Sign In</Button>
           </Link>
         </div>

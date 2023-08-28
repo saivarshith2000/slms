@@ -1,4 +1,4 @@
-export default function Home() {
+export default function Landing() {
   return (
     <div className='flex m-auto mt-24 min-h-full h-full'>
       <section className='flex flex-col justify-center text-center m-auto'>

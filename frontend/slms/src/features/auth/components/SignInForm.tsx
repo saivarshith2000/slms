@@ -8,17 +8,19 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { setCredentials } from '../store/authSlice'
 import { useSigninMutation } from '../store/authApiSlice'
-import { useNavigate } from 'react-router-dom'
+
+type SignInFormProps = {
+  onSuccess: (role: string) => void
+}
 
 const schema = z.object({
   email: z.string().email(),
   password: z.string().min(6).max(64),
 })
 
-export default function SignInForm() {
+export default function SignInForm({ onSuccess }: SignInFormProps) {
   const [signin, { isLoading }] = useSigninMutation()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -29,7 +31,7 @@ export default function SignInForm() {
     try {
       const { access_token, user } = await signin({ ...values }).unwrap()
       dispatch(setCredentials({ token: access_token, user }))
-      navigate('/dashboard')
+      onSuccess(user.role)
     } catch (err) {
       console.log(err)
     }
