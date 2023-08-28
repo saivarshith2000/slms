@@ -3,7 +3,6 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 class AccountActivationRequestSchema(BaseModel):
     email: EmailStr
-    department_code: str
 
 
 class UpdateDepartmentSchema(BaseModel):
