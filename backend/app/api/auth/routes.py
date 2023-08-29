@@ -8,7 +8,7 @@ from app.models.user import User
 
 from .dependencies import get_current_user
 from .exceptions import account_inactive_exception, credentials_exception
-from .schema import BaseUserSchema, CreateUserSchema
+from .schema import BaseUserSchema, CreateUserSchema, SignInResponseSchema
 from .service import create_user, get_user_by_email
 from .utils import create_jwt, verify_password
 
@@ -21,7 +21,7 @@ async def signup_route(request: CreateUserSchema, session: DBSession):
     return {"message": "Sign Up successful. You can sign in once an adminstrator activates your account."}
 
 
-@router.post("/signin")
+@router.post("/signin", response_model=SignInResponseSchema)
 async def signin_route(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: DBSession,
@@ -34,7 +34,7 @@ async def signin_route(
     if not verify_password(form_data.password, user.password_hash):
         raise credentials_exception
     token = create_jwt({"sub": user.email})
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "user": user}
 
 
 @router.post("/update-password")

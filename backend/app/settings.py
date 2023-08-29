@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     RELOAD: bool = False
     ECHO_SQL: bool = False
     ALGORITHM: str = "HS256"
+    ALLOWED_ORIGINS: str
 
     model_config = SettingsConfigDict(
         env_file=Path(__file__).parent.parent / f"{os.environ['APP_CONFIG']}.env",

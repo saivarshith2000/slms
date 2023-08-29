@@ -7,33 +7,38 @@ from app.api.auth.utils import hash_password
 from app.models.department import Department
 from app.models.user import Role, User
 
+from .fixtures.users import PASSWORD
+
+departments = [
+    {"name": "Department A", "code": "DEPA", "description": "Description for Department A"},
+    {"name": "Duplicate of Department A", "code": "DEPA", "description": "This is a duplicate"},
+]
+
 users = [
     {
         "email": "student-1@slms.com",
         "first_name": "student",
         "last_name": "one",
-        "password_hash": hash_password("password"),
+        "password_hash": hash_password(PASSWORD),
         "role": Role.STUDENT,
+        "department_code": departments[0]["code"],
         "active": False,
     },
     {
         "email": "teacher-1@slms.com",
         "first_name": "teacher",
         "last_name": "one",
-        "password_hash": hash_password("password"),
+        "password_hash": hash_password(PASSWORD),
         "role": Role.TEACHER,
+        "department_code": departments[0]["code"],
         "active": True,
     },
-]
-
-departments = [
-    {"name": "Department of pytest", "code": "pytest", "description": "This department teaches pytest"},
-    {"name": "Duplicate Dept. of pytest", "code": "pytest", "description": "This is a duplicate"},
 ]
 
 
 @pytest.mark.asyncio
 async def test_get_all_accounts(admin_bearer_token: str, client: AsyncClient, db_session: AsyncSession):
+    db_session.add(Department(**departments[0]))
     db_session.add(User(**users[0]))
     db_session.add(User(**users[1]))
     await db_session.commit()
@@ -46,6 +51,7 @@ async def test_get_all_accounts(admin_bearer_token: str, client: AsyncClient, db
 @pytest.mark.asyncio
 async def test_get_pending_accounts(admin_bearer_token: str, client: AsyncClient, db_session: AsyncSession):
     headers = {"Authorization": f"Bearer {admin_bearer_token}"}
+    db_session.add(Department(**departments[0]))
     db_session.add(User(**users[0]))
     db_session.add(User(**users[1]))
     await db_session.commit()
@@ -66,7 +72,7 @@ async def test_activate_user(admin_bearer_token: str, client: AsyncClient, db_se
 
     response = await client.post(
         "/admin/accounts/activate",
-        json={"email": users[0]["email"], "department_code": departments[0]["code"]},
+        json={"email": users[0]["email"]},
         headers=headers,
     )
     assert response.status_code == 200
