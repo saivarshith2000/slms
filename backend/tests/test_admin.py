@@ -129,7 +129,7 @@ async def test_update_department(admin_bearer_token: str, client: AsyncClient, d
     await db_session.commit()
 
     data = {"name": "Updated Department of Pytest", "description": "Updated description of this department"}
-    response = await client.put(f"/admin/departments/update/{departments[0]['code']}", headers=headers, json=data)
+    response = await client.put(f"/admin/departments/{departments[0]['code']}/update", headers=headers, json=data)
     assert response.status_code == 200
 
     department = await db_session.scalar(select(Department).where(Department.code == departments[0]["code"]))

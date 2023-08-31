@@ -49,7 +49,7 @@ async def create_department_route(request: CreateDepartmentSchema, session: DBSe
     return await create_department(request, session)
 
 
-@router.put("/departments/update/{code}", response_model=DepartmentSchema)
+@router.put("/departments/{code}/update", response_model=DepartmentSchema)
 async def update_department_route(code: str, request: UpdateDepartmentSchema, session: DBSession):
     logger.info(f"Updating department - {code}")
     return await update_department(code, request, session)
