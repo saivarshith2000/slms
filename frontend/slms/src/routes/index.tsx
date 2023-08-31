@@ -5,6 +5,7 @@ import Landing from '@/pages/Landing'
 import NotFound from '@/pages/NotFound'
 import { Route, Routes } from 'react-router-dom'
 import AuthRoutes from '@/features/auth/routes'
+import DepartmentRoutes from '@/features/department/routes'
 
 export default function AppRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function AppRoutes() {
       <Route path='/' element={<Root />}>
         <Route path='' index element={<Landing />} />
         {AuthRoutes}
+        {DepartmentRoutes}
         <Route path='/admin/dashboard' element={<RequireAuth />}>
           <Route path='' element={<Dashboard />} />
         </Route>
