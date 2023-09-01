@@ -24,7 +24,7 @@ export default function ListDepartments() {
     content = <div className='m-auto mt-16 text-3xl text-gray-500'>No Departments Yet...</div>
   } else {
     content = (
-      <div className='grid-cols-3 grid gap-x-4'>
+      <div className='grid-cols-3 grid gap-x-4 gap-y-4'>
         {data?.map((d) => (
           <DepartmentCard
             department={d}
@@ -36,9 +36,9 @@ export default function ListDepartments() {
     )
   }
   return (
-    <div className='flex flex-col justify-center m-14 mx-24 space-y-4'>
+    <div className='flex flex-col justify-center mt-8 mx-24 space-y-4'>
       <div className='flex justify-between'>
-        <p className='text-2xl'>Departments</p>
+        <p className='text-3xl'>Departments</p>
         {user != null && user.role === 'ADMIN' && (
           <Link to='/departments/create'>
             <Button variant='default'>New Department</Button>

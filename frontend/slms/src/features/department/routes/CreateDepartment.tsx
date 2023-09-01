@@ -11,7 +11,11 @@ import { useNavigate } from 'react-router-dom'
 
 const schema = z.object({
   name: z.string().min(6).max(128),
-  code: z.string().min(3).max(8).regex(new RegExp('^[A-Za-z]*$')),
+  code: z
+    .string()
+    .min(3)
+    .max(8)
+    .regex(new RegExp('^[A-Za-z]*$'), 'Code must contain only alphabets'),
   description: z.string().nonempty(),
 })
 
