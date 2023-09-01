@@ -25,9 +25,9 @@ export const bannerSlice = createSlice({
       state.type = 'ERROR'
       state.isOpen = true
     },
-    closeBanner: (state, _) => {
-      state.msg = ''
+    closeBanner: (state) => {
       state.isOpen = false
+      state.msg = ''
       state.type = undefined
     },
   },
