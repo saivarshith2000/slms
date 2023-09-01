@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './apiSlice'
 import authReducer from '@/features/auth/store/authSlice'
+import bannerReducer from './bannerSlice'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import authMiddleware from '@/features/auth/store/authMiddleware'
 
@@ -8,6 +9,7 @@ export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
+    banner: bannerReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().prepend(authMiddleware.middleware).concat(apiSlice.middleware),
