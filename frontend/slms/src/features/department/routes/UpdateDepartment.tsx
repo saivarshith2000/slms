@@ -8,6 +8,8 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 import { useUpdateDepartmentMutation } from '../api/departmentApiSllice'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { showErrorBanner, showSuccessBanner } from '@/store/bannerSlice'
 
 const schema = z.object({
   name: z.string().min(6).max(128),
@@ -19,6 +21,7 @@ export default function UpdateDepartment() {
   const [UpdateDepartment, { isLoading }] = useUpdateDepartmentMutation()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -36,9 +39,11 @@ export default function UpdateDepartment() {
   async function onSubmit(values: z.infer<typeof schema>) {
     console.log(values)
     try {
-      const response = UpdateDepartment({ ...values }).unwrap()
+      await UpdateDepartment({ ...values }).unwrap()
+      dispatch(showSuccessBanner({ msg: 'Department created successfully' }))
       navigate('/departments')
     } catch (err) {
+      dispatch(showErrorBanner({ msg: 'An error occured while trying to update department' }))
       console.log(err)
     }
   }

@@ -8,6 +8,8 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 import { useCreateDepartmentMutation } from '../api/departmentApiSllice'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { showErrorBanner, showSuccessBanner } from '@/store/bannerSlice'
 
 const schema = z.object({
   name: z.string().min(6).max(128),
@@ -22,17 +24,19 @@ const schema = z.object({
 export default function CreateDepartment() {
   const [createDepartment, { isLoading }] = useCreateDepartmentMutation()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   })
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values)
     try {
-      const response = createDepartment(values).unwrap()
+      await createDepartment(values).unwrap()
+      dispatch(showSuccessBanner({ msg: 'Department created successfully' }))
       navigate('/departments/')
     } catch (err) {
+      dispatch(showErrorBanner({ msg: 'An error occured while trying to create department' }))
       console.log(err)
     }
   }
