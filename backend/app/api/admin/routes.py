@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 
+from app.api.auth.schema import BaseUserSchema
 from app.api.departments.schema import DepartmentSchema
 from app.core.log import logger
 from app.db import DBSession
 
-from ..auth.schema import BaseUserSchema
 from .dependencies import is_admin
-from .schema import AccountActivationRequestSchema, UpdateDepartmentSchema
+from .schema import AccountActivationRequestSchema, CreateDepartmentSchema, UpdateDepartmentSchema
 from .service import (
     activate_account,
     create_department,
@@ -44,12 +44,12 @@ async def deactivate_account_route(email: str, session: DBSession):
 
 
 @router.post("/departments/create", response_model=DepartmentSchema)
-async def create_department_route(request: DepartmentSchema, session: DBSession):
+async def create_department_route(request: CreateDepartmentSchema, session: DBSession):
     logger.info(f"Creating department - {request.name} - {request.code}")
     return await create_department(request, session)
 
 
-@router.put("/departments/update/{code}", response_model=DepartmentSchema)
+@router.put("/departments/{code}/update", response_model=DepartmentSchema)
 async def update_department_route(code: str, request: UpdateDepartmentSchema, session: DBSession):
     logger.info(f"Updating department - {code}")
     return await update_department(code, request, session)

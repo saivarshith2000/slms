@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 if TYPE_CHECKING:
+    from .course import Course
     from .user import User
 
 
@@ -20,3 +21,4 @@ class Department(Base):
     description: Mapped[str] = mapped_column(Text())
 
     users: Mapped[list["User"]] = relationship()
+    courses: Mapped[list["Course"]] = relationship(back_populates="department")

@@ -2,7 +2,7 @@ export type User = {
   email: string
   first_name: string
   last_name: string
-  role: 'STUDENT' | 'TEACHER'
+  role: 'STUDENT' | 'TEACHER' | 'ADMIN'
 }
 
 export type SignUpInput = {

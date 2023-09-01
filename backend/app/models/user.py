@@ -30,4 +30,4 @@ class User(Base):
     active: Mapped[bool] = mapped_column(default=False)
     activated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
 
-    department_code: Mapped[UUID] = mapped_column(ForeignKey("departments.code"), nullable=True)
+    department_code: Mapped[str] = mapped_column(ForeignKey("departments.code"), nullable=True)

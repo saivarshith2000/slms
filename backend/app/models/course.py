@@ -5,12 +5,12 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import Date, DateTime, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
 
 if TYPE_CHECKING:
-    pass
+    from .department import Department
 
 
 class CourseTeacherRole(str, Enum):
@@ -53,10 +53,11 @@ class Course(Base):
     credits: Mapped[int] = mapped_column(nullable=False)
     capacity: Mapped[int] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(Text(), nullable=False)
-    start_date: Mapped[date] = mapped_column(Date(timezone=True), nullable=False)
-    end_date: Mapped[date] = mapped_column(Date(timezone=True), nullable=False)
+    start_date: Mapped[date] = mapped_column(Date(), nullable=False)
+    end_date: Mapped[date] = mapped_column(Date(), nullable=False)
 
     active: Mapped[bool] = mapped_column(default=False)
     activated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
 
     department_code: Mapped[UUID] = mapped_column(ForeignKey("departments.code"), nullable=False)
+    department: Mapped["Department"] = relationship(back_populates="courses")
