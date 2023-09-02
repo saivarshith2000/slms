@@ -24,6 +24,10 @@ export default function SignInForm({ onSuccess }: SignInFormProps) {
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   async function onSubmit(values: z.infer<typeof schema>) {
