@@ -40,10 +40,10 @@ export default function UpdateDepartment() {
     console.log(values)
     try {
       await UpdateDepartment({ ...values }).unwrap()
-      dispatch(showSuccessBanner({ msg: 'Department created successfully' }))
+      dispatch(showSuccessBanner('Department created successfully'))
       navigate('/departments')
     } catch (err) {
-      dispatch(showErrorBanner({ msg: 'An error occured while trying to update department' }))
+      dispatch(showErrorBanner('An error occured while trying to update department'))
       console.log(err)
     }
   }

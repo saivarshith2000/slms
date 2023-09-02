@@ -8,13 +8,17 @@ import { SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shadcnu
 import { Select } from '@radix-ui/react-select'
 import { useSignupMutation } from '../api/authApiSlice'
 import { ReloadIcon } from '@radix-ui/react-icons'
+import { useAllDepartmentsQuery } from '@/features/department/api/departmentApiSllice'
+import { useDispatch } from 'react-redux'
+import { showErrorBanner, showSuccessBanner } from '@/store/bannerSlice'
 
 const schema = z
   .object({
     first_name: z.string().min(3).max(32),
     last_name: z.string().min(3).max(32),
     email: z.string().email(),
-    role: z.string().min(1),
+    role: z.string().nonempty(),
+    department_code: z.string().nonempty(),
     password: z.string().min(6).max(64),
     confirm_password: z.string().min(6).max(64),
   })
@@ -37,12 +41,15 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
       first_name: '',
       last_name: '',
       role: '',
+      department_code: '',
       password: '',
       confirm_password: '',
     },
   })
 
+  const dispatch = useDispatch()
   const [signup, { isLoading }] = useSignupMutation()
+  const { data, isLoading: isLoadingDepartments, error } = useAllDepartmentsQuery()
 
   async function onSubmit(values: z.infer<typeof schema>) {
     // Do something with the form values.
@@ -51,44 +58,64 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
         ...values,
         role: values.role as UserRole,
       }).unwrap()
+      dispatch(
+        showSuccessBanner(
+          'Sign Up Successful! You can sign in once an administrator approves your account.',
+        ),
+      )
+      form.reset()
       onSuccess()
       console.log(response)
     } catch (err) {
+      dispatch(showErrorBanner('An error occured while signing up. Please try again later.'))
       console.log(err)
     }
-    console.log(values)
+  }
+
+  if (isLoadingDepartments) {
+    return (
+      <div className='flex justify-evenly items-center'>
+        <ReloadIcon />
+        <p>Fetching department list...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    dispatch(showErrorBanner('An error occured while trying to fetch department list'))
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-        <FormField
-          control={form.control}
-          name='first_name'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-              <FormControl>
-                <Input placeholder='First Name' {...field} type='text' />
-              </FormControl>
-              <FormMessage className='font-light' />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='last_name'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-              <FormControl>
-                <Input placeholder='Last Name' {...field} type='text' />
-              </FormControl>
-              <FormMessage className='font-light' />
-            </FormItem>
-          )}
-        />
-
+        <div className='flex justify-between items-center space-x-4'>
+          <FormField
+            control={form.control}
+            name='first_name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
+                  <Input placeholder='First Name' {...field} type='text' />
+                </FormControl>
+                <FormMessage className='font-light' />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='last_name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input placeholder='Last Name' {...field} type='text' />
+                </FormControl>
+                <FormMessage className='font-light' />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name='email'
@@ -102,26 +129,52 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name='role'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Role</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Select Your Role' />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value='STUDENT'>Student</SelectItem>
-                  <SelectItem value='TEACHER'>Teacher</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+        <div className='flex justify-between items-center space-x-4 '>
+          <FormField
+            control={form.control}
+            name='role'
+            render={({ field }) => (
+              <FormItem className='flex-1'>
+                <FormLabel>Role</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Select Your Role' />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value='STUDENT'>Student</SelectItem>
+                    <SelectItem value='TEACHER'>Teacher</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name='department_code'
+            render={({ field }) => (
+              <FormItem className='flex-1'>
+                <FormLabel>Department</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Select your department' />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {data?.map((d) => (
+                      <SelectItem value={d.code} key={d.code}>
+                        {d.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
