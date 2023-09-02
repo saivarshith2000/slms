@@ -1,7 +1,7 @@
 import { BaseQueryFn, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { logOut } from '@/features/auth/store/authSlice'
 import { RootState } from '.'
-import { showErrorBanner } from './bannerSlice'
+import { showNonOverridableErrorBanner } from './bannerSlice'
 
 const baseQuery = fetchBaseQuery({
   // baseUrl: `${import.meta.env.BACKEND_URL}/api/v1`,
@@ -25,9 +25,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 
   if (result?.error?.status === 401) {
     console.log('Token expired. Logging out')
-    api.dispatch(
-      showErrorBanner({ msg: 'Session expired. Please signin again', isOverridable: false }),
-    )
+    api.dispatch(showNonOverridableErrorBanner('Session expired. Please signin again'))
     api.dispatch(logOut())
   }
   return result

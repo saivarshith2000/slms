@@ -39,10 +39,10 @@ export default function CreateDepartment() {
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
       await createDepartment(values).unwrap()
-      dispatch(showSuccessBanner({ msg: 'Department created successfully' }))
+      dispatch(showSuccessBanner('Department created successfully'))
       navigate('/departments/')
     } catch (err) {
-      dispatch(showErrorBanner({ msg: 'An error occured while trying to create department' }))
+      dispatch(showErrorBanner('An error occured while trying to create department'))
       console.log(err)
     }
   }
