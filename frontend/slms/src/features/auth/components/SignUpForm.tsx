@@ -32,6 +32,14 @@ type UserRole = 'STUDENT' | 'TEACHER'
 export default function SignUpForm({ onSuccess }: SignUpFormProps) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: '',
+      first_name: '',
+      last_name: '',
+      role: '',
+      password: '',
+      confirm_password: '',
+    },
   })
 
   const [signup, { isLoading }] = useSignupMutation()

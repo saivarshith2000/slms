@@ -10,6 +10,7 @@ import { useCreateDepartmentMutation } from '../api/departmentApiSllice'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { showErrorBanner, showSuccessBanner } from '@/store/bannerSlice'
+import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 
 const schema = z.object({
   name: z.string().min(6).max(128),
@@ -28,6 +29,11 @@ export default function CreateDepartment() {
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: '',
+      code: '',
+      description: '',
+    },
   })
 
   async function onSubmit(values: z.infer<typeof schema>) {
