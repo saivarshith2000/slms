@@ -8,7 +8,7 @@ import { SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shadcnu
 import { Select } from '@radix-ui/react-select'
 import { useSignupMutation } from '../api/authApiSlice'
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { useAllDepartmentsQuery } from '@/features/department/api/departmentApiSllice'
+import { useAllDepartmentsQuery } from '@/features/department/api/departmentApiSlice'
 import { useDispatch } from 'react-redux'
 import { showErrorBanner, showSuccessBanner } from '@/store/bannerSlice'
 
