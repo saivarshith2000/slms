@@ -6,7 +6,7 @@ export default function SignIn() {
   const navigate = useNavigate()
 
   return (
-    <Layout alternateLink='/auth/signup' alternateText="Don't have an account?">
+    <Layout alternateLink='/auth/signup' alternateText="Don't have an account?" title='Sign In'>
       <SignInForm onSuccess={(role: string) => navigate(`/${role}/dashboard`)} />
     </Layout>
   )
