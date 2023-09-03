@@ -54,7 +54,7 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
   async function onSubmit(values: z.infer<typeof schema>) {
     // Do something with the form values.
     try {
-      const response = await signup({
+      await signup({
         ...values,
         role: values.role as UserRole,
       }).unwrap()
@@ -65,10 +65,8 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
       )
       form.reset()
       onSuccess()
-      console.log(response)
     } catch (err) {
       dispatch(showErrorBanner('An error occured while signing up. Please try again later.'))
-      console.log(err)
     }
   }
 
