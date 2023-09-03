@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { useAllDepartmentsQuery } from '../api/departmentApiSllice'
+import { useAllDepartmentsQuery } from '../api/departmentApiSlice'
 import { DepartmentCard, DepartmentCardSkeleton } from '../components/DepartmentCard'
 import { selectCurrentUser } from '@/features/auth/store/authSlice'
 import { Link } from 'react-router-dom'
