@@ -1,12 +1,11 @@
 from fastapi import APIRouter, Depends
 
-from app.api.auth.schema import BaseUserSchema
 from app.api.departments.schema import DepartmentSchema
 from app.core.log import logger
 from app.db import DBSession
 
 from .dependencies import is_admin
-from .schema import AccountActivationRequestSchema, CreateDepartmentSchema, UpdateDepartmentSchema
+from .schema import AccountActivationRequestSchema, CreateDepartmentSchema, UpdateDepartmentSchema, UserAccountSchema
 from .service import (
     activate_account,
     create_department,
@@ -19,12 +18,12 @@ from .service import (
 router = APIRouter(prefix="/admin", dependencies=[Depends(is_admin)])
 
 
-@router.get("/accounts/all", response_model=list[BaseUserSchema])
+@router.get("/accounts/all", response_model=list[UserAccountSchema])
 async def all_accounts_route(session: DBSession):
     return await get_all_accounts(session)
 
 
-@router.get("/accounts/pending", response_model=list[BaseUserSchema])
+@router.get("/accounts/pending", response_model=list[UserAccountSchema])
 async def pending_accounts_route(session: DBSession):
     return await get_inactive_accounts(session)
 

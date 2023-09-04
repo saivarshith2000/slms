@@ -1,4 +1,22 @@
+from datetime import datetime
+from typing import Optional
+
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
+
+from app.models.user import Role
+
+
+class UserAccountSchema(BaseModel):
+    email: EmailStr
+    first_name: str
+    last_name: str
+    role: Role
+    department_code: Optional[str]
+    active: bool
+    activated_at: Optional[datetime]
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class AccountActivationRequestSchema(BaseModel):
